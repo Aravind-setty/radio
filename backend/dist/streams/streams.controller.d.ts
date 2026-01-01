@@ -11,7 +11,6 @@ export declare class StreamsController {
         genre: string | null;
         description: string | null;
         type: string;
-        streamUrl: string | null;
         isActive: boolean;
         userId: string;
     }>;
@@ -28,11 +27,15 @@ export declare class StreamsController {
         genre: string | null;
         description: string | null;
         type: string;
-        streamUrl: string | null;
         isActive: boolean;
         userId: string;
     })[]>;
-    findMyStreams(req: any): Promise<{
+    findMyStreams(req: any): Promise<({
+        user: {
+            username: string;
+            id: string;
+        };
+    } & {
         id: string;
         createdAt: Date;
         updatedAt: Date;
@@ -40,10 +43,9 @@ export declare class StreamsController {
         genre: string | null;
         description: string | null;
         type: string;
-        streamUrl: string | null;
         isActive: boolean;
         userId: string;
-    }[]>;
+    })[]>;
     findOne(id: string): Promise<{
         user: {
             username: string;
@@ -57,7 +59,6 @@ export declare class StreamsController {
         genre: string | null;
         description: string | null;
         type: string;
-        streamUrl: string | null;
         isActive: boolean;
         userId: string;
     }>;
@@ -69,7 +70,6 @@ export declare class StreamsController {
         genre: string | null;
         description: string | null;
         type: string;
-        streamUrl: string | null;
         isActive: boolean;
         userId: string;
     }>;
@@ -81,7 +81,6 @@ export declare class StreamsController {
         genre: string | null;
         description: string | null;
         type: string;
-        streamUrl: string | null;
         isActive: boolean;
         userId: string;
     }>;
@@ -93,7 +92,6 @@ export declare class StreamsController {
         genre: string | null;
         description: string | null;
         type: string;
-        streamUrl: string | null;
         isActive: boolean;
         userId: string;
     }>;

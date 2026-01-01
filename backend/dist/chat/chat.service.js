@@ -29,14 +29,58 @@ let ChatService = class ChatService {
             },
         });
     }
-    async getMessages(streamId) {
+    async getMessages(streamId, limit = 50, offset = 0) {
         return this.prisma.chatMessage.findMany({
             where: { streamId },
             include: {
                 user: { select: { username: true } },
             },
             orderBy: { createdAt: 'asc' },
-            take: 50,
+            take: limit,
+            skip: offset,
+        });
+    }
+    async getMessageCount(streamId) {
+        return this.prisma.chatMessage.count({
+            where: { streamId },
+        });
+    }
+    async updateMessage(messageId, userId, content) {
+        const message = await this.prisma.chatMessage.findUnique({
+            where: { id: messageId },
+        });
+        if (!message) {
+            throw new Error('Message not found');
+        }
+        if (message.userId !== userId) {
+            throw new Error("Unauthorized: Cannot edit another user's message");
+        }
+        return this.prisma.chatMessage.update({
+            where: { id: messageId },
+            data: {
+                content,
+                editedAt: new Date(),
+            },
+            include: {
+                user: { select: { username: true } },
+            },
+        });
+    }
+    async deleteMessage(messageId, userId) {
+        const message = await this.prisma.chatMessage.findUnique({
+            where: { id: messageId },
+        });
+        if (!message) {
+            throw new Error('Message not found');
+        }
+        if (message.userId !== userId) {
+            throw new Error("Unauthorized: Cannot delete another user's message");
+        }
+        return this.prisma.chatMessage.delete({
+            where: { id: messageId },
+            include: {
+                user: { select: { username: true } },
+            },
         });
     }
 };

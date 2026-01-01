@@ -21,22 +21,25 @@ class CreateStreamDto {
     genre;
     description;
     type;
-    streamUrl;
 }
 exports.CreateStreamDto = CreateStreamDto;
 __decorate([
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.MinLength)(3, { message: 'Title must be at least 3 characters long' }),
+    (0, class_validator_1.MaxLength)(100, { message: 'Title must not exceed 100 characters' }),
     __metadata("design:type", String)
 ], CreateStreamDto.prototype, "title", void 0);
 __decorate([
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.MaxLength)(50, { message: 'Genre must not exceed 50 characters' }),
     __metadata("design:type", String)
 ], CreateStreamDto.prototype, "genre", void 0);
 __decorate([
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.MaxLength)(500, { message: 'Description must not exceed 500 characters' }),
     __metadata("design:type", String)
 ], CreateStreamDto.prototype, "description", void 0);
 __decorate([
@@ -44,9 +47,4 @@ __decorate([
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
 ], CreateStreamDto.prototype, "type", void 0);
-__decorate([
-    (0, class_validator_1.IsString)(),
-    (0, class_validator_1.IsOptional)(),
-    __metadata("design:type", String)
-], CreateStreamDto.prototype, "streamUrl", void 0);
 //# sourceMappingURL=create-stream.dto.js.map

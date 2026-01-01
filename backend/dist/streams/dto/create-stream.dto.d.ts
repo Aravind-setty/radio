@@ -7,6 +7,5 @@ export declare class CreateStreamDto {
     genre?: string;
     description?: string;
     type?: StreamType;
-    streamUrl?: string;
 }
 export {};

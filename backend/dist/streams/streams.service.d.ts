@@ -12,7 +12,6 @@ export declare class StreamsService {
         genre: string | null;
         description: string | null;
         type: string;
-        streamUrl: string | null;
         isActive: boolean;
         userId: string;
     }>;
@@ -29,7 +28,6 @@ export declare class StreamsService {
         genre: string | null;
         description: string | null;
         type: string;
-        streamUrl: string | null;
         isActive: boolean;
         userId: string;
     })[]>;
@@ -46,7 +44,6 @@ export declare class StreamsService {
         genre: string | null;
         description: string | null;
         type: string;
-        streamUrl: string | null;
         isActive: boolean;
         userId: string;
     }>;
@@ -58,7 +55,6 @@ export declare class StreamsService {
         genre: string | null;
         description: string | null;
         type: string;
-        streamUrl: string | null;
         isActive: boolean;
         userId: string;
     }>;
@@ -70,7 +66,6 @@ export declare class StreamsService {
         genre: string | null;
         description: string | null;
         type: string;
-        streamUrl: string | null;
         isActive: boolean;
         userId: string;
     }>;
@@ -82,11 +77,15 @@ export declare class StreamsService {
         genre: string | null;
         description: string | null;
         type: string;
-        streamUrl: string | null;
         isActive: boolean;
         userId: string;
     }>;
-    findMyStreams(userId: string): Promise<{
+    findMyStreams(userId: string): Promise<({
+        user: {
+            username: string;
+            id: string;
+        };
+    } & {
         id: string;
         createdAt: Date;
         updatedAt: Date;
@@ -94,8 +93,7 @@ export declare class StreamsService {
         genre: string | null;
         description: string | null;
         type: string;
-        streamUrl: string | null;
         isActive: boolean;
         userId: string;
-    }[]>;
+    })[]>;
 }

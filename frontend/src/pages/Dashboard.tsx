@@ -4,7 +4,7 @@ import { useStreamStore } from "../store/streamStore";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import Chat from "../components/Chat";
-import { Play, Mic, StopCircle, Radio, LogOut } from "lucide-react";
+import { Play, Mic, StopCircle, Radio, LogOut, Trash2 } from "lucide-react";
 import { cn } from "../lib/utils";
 import { useNavigate } from "react-router-dom";
 
@@ -16,11 +16,16 @@ export default function Dashboard() {
     createStream,
     startStream,
     stopStream,
+    deleteStream,
     setActiveStream,
+    myStreamId,
+    activeStream,
   } = useStreamStore();
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [newStreamTitle, setNewStreamTitle] = useState("");
   const [newStreamGenre, setNewStreamGenre] = useState("");
+  const [warning, setWarning] = useState("");
+  const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
 
   // Local state to view a specific stream's chat even if not playing audio
   // But typically chat is tied to playback. Let's tie it to the "View" action.
@@ -37,13 +42,28 @@ export default function Dashboard() {
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newStreamTitle) return;
-    await createStream({
-      title: newStreamTitle,
-      genre: newStreamGenre,
-    });
-    setShowCreateModal(false);
-    setNewStreamTitle("");
-    setNewStreamGenre("");
+    if (activeStream) {
+      setWarning(
+        "Stop listening before starting a stream. You can only stream OR listen at a time."
+      );
+      setTimeout(() => setWarning(""), 5000);
+      return;
+    }
+    try {
+      await createStream({
+        title: newStreamTitle,
+        genre: newStreamGenre,
+      });
+      setShowCreateModal(false);
+      setNewStreamTitle("");
+      setNewStreamGenre("");
+      // Refresh to get the new stream
+      setTimeout(() => fetchStreams(), 500);
+    } catch (error) {
+      console.error("Failed to create stream", error);
+      setWarning("Failed to create stream");
+      setTimeout(() => setWarning(""), 5000);
+    }
   };
 
   const handleLogout = () => {
@@ -51,10 +71,58 @@ export default function Dashboard() {
     navigate("/login");
   };
 
+  const handleDeleteStream = async (streamId: string) => {
+    try {
+      await deleteStream(streamId);
+      setDeleteConfirmId(null);
+      // Show success feedback
+      setWarning("");
+    } catch (error) {
+      console.error("Failed to delete stream", error);
+      const message = error instanceof Error ? error.message : "Failed to delete stream. Please try again.";
+      setWarning(message);
+      setTimeout(() => setWarning(""), 5000);
+      // Keep the confirm dialog open on error
+    }
+  };
+
+  const handleStartStream = async (streamId: string) => {
+    try {
+      await startStream(streamId);
+      setWarning(""); // Clear any warnings
+    } catch (error) {
+      console.error("Failed to start stream", error);
+      const message =
+        error instanceof Error ? error.message : "Failed to start stream";
+      setWarning(message);
+      setTimeout(() => setWarning(""), 5000);
+    }
+  };
+
+  const handleStopStream = async (streamId: string) => {
+    try {
+      await stopStream(streamId);
+      setWarning(""); // Clear any warnings
+    } catch (error) {
+      console.error("Failed to stop stream", error);
+      const message =
+        error instanceof Error ? error.message : "Failed to stop stream";
+      setWarning(message);
+      setTimeout(() => setWarning(""), 5000);
+    }
+  };
+
   return (
     <div className="flex h-screen bg-gray-950 text-white overflow-hidden">
       {/* Sidebar / Main Content Area */}
       <div className="flex-1 flex flex-col overflow-hidden transition-all duration-300 mr-0">
+        {/* Warning Banner */}
+        {warning && (
+          <div className="bg-red-900/50 border-b border-red-700 p-3 text-red-200 text-sm">
+            {warning}
+          </div>
+        )}
+
         {/* Header */}
         <header className="flex items-center justify-between p-6 border-b border-gray-800 bg-gray-900/50 backdrop-blur-md">
           <div className="flex items-center gap-3">
@@ -63,19 +131,30 @@ export default function Dashboard() {
             </div>
             <h1 className="text-2xl font-bold tracking-tight">OnAir</h1>
           </div>
-          <div className="flex items-center gap-4">
-            <span className="text-sm font-medium text-gray-400">
-              Welcome, {user?.username}
-            </span>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleLogout}
-              className="border-gray-700 hover:bg-gray-800"
-            >
-              <LogOut className="w-4 h-4 mr-2" />
-              Logout
-            </Button>
+          <div className="flex items-center gap-6">
+            {/* Streaming Status */}
+            {myStreamId && (
+              <div className="flex items-center gap-2 px-4 py-2 bg-red-900/30 border border-red-700/50 rounded-lg">
+                <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse" />
+                <span className="text-sm font-medium text-red-300">
+                  Broadcasting
+                </span>
+              </div>
+            )}
+            <div className="flex items-center gap-4">
+              <span className="text-sm font-medium text-gray-400">
+                Welcome, {user?.username}
+              </span>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleLogout}
+                className="border-gray-700 hover:bg-gray-800"
+              >
+                <LogOut className="w-4 h-4 mr-2" />
+                Logout
+              </Button>
+            </div>
           </div>
         </header>
 
@@ -165,9 +244,17 @@ export default function Dashboard() {
                     <Button
                       size="sm"
                       className="rounded-full"
+                      disabled={!!(myStreamId && myStreamId !== stream.id)}
+                      title={
+                        myStreamId && myStreamId !== stream.id
+                          ? "Stop your stream first"
+                          : ""
+                      }
                       onClick={() => {
-                        setActiveStream(stream);
-                        setViewingStreamId(stream.id);
+                        if (!myStreamId || myStreamId === stream.id) {
+                          setActiveStream(stream);
+                          setViewingStreamId(stream.id);
+                        }
                       }}
                     >
                       <Play className="w-4 h-4 mr-2" />
@@ -195,28 +282,67 @@ export default function Dashboard() {
 
                   {/* Control for Owner */}
                   {user?.id === stream.user.id && (
-                    <div className="mt-4 pt-4 border-t border-gray-800 flex justify-between items-center">
-                      <span className="text-xs text-blue-400 font-medium">
-                        Your Stream
-                      </span>
-                      {stream.isActive ? (
-                        <Button
-                          size="sm"
-                          variant="destructive"
-                          onClick={() => stopStream(stream.id)}
-                          className="h-7 text-xs"
-                        >
-                          <StopCircle className="w-3 h-3 mr-1" />
-                          End
-                        </Button>
+                    <div className="mt-4 pt-4 border-t border-gray-800 space-y-2">
+                      <div className="flex justify-between items-center">
+                        <span className="text-xs text-blue-400 font-medium">
+                          Your Stream
+                        </span>
+                        {stream.isActive ? (
+                          <Button
+                            size="sm"
+                            variant="destructive"
+                            onClick={() => handleStopStream(stream.id)}
+                            className="h-7 text-xs"
+                          >
+                            <StopCircle className="w-3 h-3 mr-1" />
+                            End
+                          </Button>
+                        ) : (
+                          <Button
+                            size="sm"
+                            onClick={() => handleStartStream(stream.id)}
+                            className="h-7 text-xs bg-green-600 hover:bg-green-700"
+                          >
+                            <Play className="w-3 h-3 mr-1" />
+                            Start
+                          </Button>
+                        )}
+                      </div>
+
+                      {/* Delete Confirmation */}
+                      {deleteConfirmId === stream.id ? (
+                        <div className="bg-red-900/20 border border-red-700/50 rounded p-2 space-y-2">
+                          <p className="text-xs text-red-300">
+                            Delete permanently?
+                          </p>
+                          <div className="flex gap-2 justify-end">
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              onClick={() => setDeleteConfirmId(null)}
+                              className="h-6 text-xs"
+                            >
+                              Cancel
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="destructive"
+                              onClick={() => handleDeleteStream(stream.id)}
+                              className="h-6 text-xs"
+                            >
+                              Delete
+                            </Button>
+                          </div>
+                        </div>
                       ) : (
                         <Button
                           size="sm"
-                          onClick={() => startStream(stream.id)}
-                          className="h-7 text-xs bg-green-600 hover:bg-green-700"
+                          variant="ghost"
+                          onClick={() => setDeleteConfirmId(stream.id)}
+                          className="w-full h-7 text-xs text-red-400 hover:bg-red-900/20"
                         >
-                          <Play className="w-3 h-3 mr-1" />
-                          Start
+                          <Trash2 className="w-3 h-3 mr-1" />
+                          Delete Stream
                         </Button>
                       )}
                     </div>

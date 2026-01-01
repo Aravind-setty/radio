@@ -66,7 +66,10 @@ let StreamsService = class StreamsService {
         return this.prisma.stream.delete({ where: { id } });
     }
     async findMyStreams(userId) {
-        return this.prisma.stream.findMany({ where: { userId } });
+        return this.prisma.stream.findMany({
+            where: { userId },
+            include: { user: { select: { username: true, id: true } } },
+        });
     }
 };
 exports.StreamsService = StreamsService;
