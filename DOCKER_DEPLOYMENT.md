@@ -12,7 +12,7 @@
 ### 1. **PostgreSQL Database** 🗄️
 - **Image:** `postgres:15-alpine`
 - **Status:** ✅ Healthy
-- **Port:** `5433:5432`
+- **Port:** `5434:5432`
 - **Database:** `radio_db`
 - **User:** `postgres`
 - **Password:** `password`
@@ -20,12 +20,12 @@
 ### 2. **Redis Cache** 🔴
 - **Image:** `redis:7-alpine`
 - **Status:** ✅ Healthy
-- **Port:** `6379:6379`
+- **Port:** `6380:6379`
 - **Use:** Session storage & caching
 
 ### 3. **Backend API** 🚀
 - **Status:** ✅ Running
-- **Port:** `3000:3000`
+- **Port:** `3001:3000`
 - **API URL:** http://localhost:3000
 - **Environment:** Production
 - **Features:**
@@ -36,7 +36,7 @@
 
 ### 4. **Frontend Web App** 🌐
 - **Status:** ✅ Running
-- **Port:** `80:80`
+- **Port:** `8080:80`
 - **App URL:** **http://localhost**
 - **Features:**
   - React SPA
@@ -50,19 +50,19 @@
 
 ### Main Application:
 ```
-🌐 Frontend: http://localhost
-📡 Backend API: http://localhost:3000
-💬 WebSocket: ws://localhost:3000
+🌐 Frontend: http://localhost:8080
+📡 Backend API: http://localhost:3001
+💬 WebSocket: ws://localhost:3001
 ```
 
 ### Database Connections (for debugging):
 ```
-📊 PostgreSQL: localhost:5433
+📊 PostgreSQL: localhost:5434
    Database: radio_db
    Username: postgres
    Password: password
 
-🔴 Redis: localhost:6379
+🔴 Redis: localhost:6380
 ```
 
 ---

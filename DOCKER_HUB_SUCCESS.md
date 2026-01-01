@@ -103,21 +103,21 @@ docker run -d \
   --network radio_network \
   -e POSTGRES_PASSWORD=password \
   -e POSTGRES_DB=radio_db \
-  -p 5433:5432 \
+  -p 5434:5432 \
   postgres:15-alpine
 
 # Run Redis
 docker run -d \
   --name radio_redis \
   --network radio_network \
-  -p 6379:6379 \
+  -p 6380:6379 \
   redis:7-alpine
 
 # Run Backend
 docker run -d \
   --name radio_backend \
   --network radio_network \
-  -p 3000:3000 \
+  -p 3001:3000 \
   -e DATABASE_URL="postgresql://postgres:password@radio_postgres:5432/radio_db" \
   -e REDIS_HOST=radio_redis \
   -e REDIS_PORT=6379 \
@@ -128,7 +128,7 @@ docker run -d \
 docker run -d \
   --name radio_frontend \
   --network radio_network \
-  -p 80:80 \
+  -p 8080:80 \
   bbj1111/radio-frontend:latest
 ```
 
@@ -151,7 +151,7 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
       POSTGRES_DB: radio_db
     ports:
-      - '5433:5432'
+      - '5434:5432'
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
@@ -160,7 +160,7 @@ services:
     container_name: radio_redis
     restart: always
     ports:
-      - '6379:6379'
+      - '6380:6379'
     volumes:
       - redis_data:/data
 
@@ -169,7 +169,7 @@ services:
     container_name: radio_backend
     restart: always
     ports:
-      - '3000:3000'
+      - '3001:3000'
     environment:
       DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD:-password}@postgres:5432/radio_db
       REDIS_HOST: redis
@@ -185,7 +185,7 @@ services:
     container_name: radio_frontend
     restart: always
     ports:
-      - '80:80'
+      - '8080:80'
     depends_on:
       - backend
 

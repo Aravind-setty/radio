@@ -193,11 +193,11 @@ API Calls:
 - ✅ Code updated in `frontend/src/store/authStore.ts`
 - ✅ Frontend Docker image rebuilt
 - ✅ Container restarted with new code
-- ✅ Fix is now live at http://localhost
+- ✅ Fix is now live at http://localhost:8080
 
 ### **To Test:**
 1. Clear browser localStorage (F12 → Application → Local Storage → Clear All)
-2. Navigate to http://localhost
+2. Navigate to http://localhost:8080
 3. Register a new user or login
 4. Check localStorage - should see both `token` and `user`
 5. Refresh the page
@@ -210,7 +210,7 @@ API Calls:
 
 ### **Manual Test:**
 ```bash
-1. Open http://localhost in browser
+1. Open http://localhost:8080 in browser
 2. Open DevTools (F12) → Console
 3. Clear localStorage: localStorage.clear()
 4. Register new user: testfix@test.com / TestFix / test123456
