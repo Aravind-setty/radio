@@ -10,23 +10,20 @@
 ## 📦 Running Services
 
 ### 1. **PostgreSQL Database** 🗄️
-- **Container:** `radio_postgres`
 - **Image:** `postgres:15-alpine`
 - **Status:** ✅ Healthy
-- **Port:** `5432:5432`
+- **Port:** `5433:5432`
 - **Database:** `radio_db`
 - **User:** `postgres`
 - **Password:** `password`
 
 ### 2. **Redis Cache** 🔴
-- **Container:** `radio_redis`
 - **Image:** `redis:7-alpine`
 - **Status:** ✅ Healthy
 - **Port:** `6379:6379`
 - **Use:** Session storage & caching
 
 ### 3. **Backend API** 🚀
-- **Container:** `radio_backend`
 - **Status:** ✅ Running
 - **Port:** `3000:3000`
 - **API URL:** http://localhost:3000
@@ -38,7 +35,6 @@
   - JWT authentication
 
 ### 4. **Frontend Web App** 🌐
-- **Container:** `radio_frontend`
 - **Status:** ✅ Running
 - **Port:** `80:80`
 - **App URL:** **http://localhost**
@@ -61,7 +57,7 @@
 
 ### Database Connections (for debugging):
 ```
-📊 PostgreSQL: localhost:5432
+📊 PostgreSQL: localhost:5433
    Database: radio_db
    Username: postgres
    Password: password
@@ -209,6 +205,7 @@ docker compose logs postgres
 ```powershell
 # Find what's using the port
 netstat -ano | findstr :3000
+netstat -ano | findstr :5433
 netstat -ano | findstr :80
 
 # Stop conflicting service or change ports in docker-compose.yml

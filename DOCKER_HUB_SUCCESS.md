@@ -103,7 +103,7 @@ docker run -d \
   --network radio_network \
   -e POSTGRES_PASSWORD=password \
   -e POSTGRES_DB=radio_db \
-  -p 5432:5432 \
+  -p 5433:5432 \
   postgres:15-alpine
 
 # Run Redis
@@ -151,7 +151,7 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
       POSTGRES_DB: radio_db
     ports:
-      - '5432:5432'
+      - '5433:5432'
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
