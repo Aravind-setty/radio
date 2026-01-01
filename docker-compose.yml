@@ -32,9 +32,7 @@ services:
       retries: 5
 
   backend:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
+    image: bbj1111/radio-backend:latest
     restart: always
     ports:
       - '3001:3000'
@@ -43,14 +41,12 @@ services:
     depends_on:
       - postgres
       - redis
-    volumes:
-      - ./backend/src:/app/src
-      - ./backend/prisma:/app/prisma
+    # Wait for DB to be potentially ready before running migrations
+    command: >
+      sh -c "sleep 10 && npx prisma db push && node dist/main"
 
   frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
+    image: bbj1111/radio-frontend:latest
     restart: always
     ports:
       - '8088:80'
