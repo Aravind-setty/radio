@@ -1,0 +1,38 @@
+﻿Prisma schema loaded from prisma/schema.prisma
+Datasource "db": PostgreSQL database "radio_db", schema "public" at "postgres:5432"
+
+≡ƒÜÇ  Your database is now in sync with your Prisma schema. Done in 145ms
+
+Running generate... (Use --skip-generate to skip the generators)
+[2K[1A[2K[GRunning generate... - Prisma Client
+[2K[1A[2K[GΓ£ö Generated Prisma Client (v5.22.0) to ./node_modules/@prisma/client in 66ms
+
+[32m[Nest] 1  - [39m01/01/2026, 10:52:39 AM [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 1  - [39m01/01/2026, 10:52:39 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPrismaModule dependencies initialized[39m[38;5;3m +14ms[39m
+[32m[Nest] 1  - [39m01/01/2026, 10:52:39 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPassportModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m01/01/2026, 10:52:39 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigHostModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m01/01/2026, 10:52:39 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m01/01/2026, 10:52:39 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m01/01/2026, 10:52:39 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m01/01/2026, 10:52:39 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mChatModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m01/01/2026, 10:52:39 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mJwtModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m01/01/2026, 10:52:39 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mStreamsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m01/01/2026, 10:52:39 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m01/01/2026, 10:52:40 AM [32m    LOG[39m [38;5;3m[WebSocketsController] [39m[32mChatGateway subscribed to the "join_stream_chat" message[39m[38;5;3m +15ms[39m
+[32m[Nest] 1  - [39m01/01/2026, 10:52:40 AM [32m    LOG[39m [38;5;3m[WebSocketsController] [39m[32mChatGateway subscribed to the "leave_stream_chat" message[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m01/01/2026, 10:52:40 AM [32m    LOG[39m [38;5;3m[WebSocketsController] [39m[32mChatGateway subscribed to the "send_message" message[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m01/01/2026, 10:52:40 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAppController {/}:[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m01/01/2026, 10:52:40 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/, GET} route[39m[38;5;3m +2ms[39m
+[32m[Nest] 1  - [39m01/01/2026, 10:52:40 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/health, GET} route[39m[38;5;3m +3ms[39m
+[32m[Nest] 1  - [39m01/01/2026, 10:52:40 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuthController {/auth}:[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m01/01/2026, 10:52:40 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/register, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m01/01/2026, 10:52:40 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/login, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m01/01/2026, 10:52:40 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mStreamsController {/streams}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m01/01/2026, 10:52:40 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/streams, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m01/01/2026, 10:52:40 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/streams, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m01/01/2026, 10:52:40 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/streams/my, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m01/01/2026, 10:52:40 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/streams/:id, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m01/01/2026, 10:52:40 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/streams/:id/start, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m01/01/2026, 10:52:40 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/streams/:id/stop, PATCH} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 1  - [39m01/01/2026, 10:52:40 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/streams/:id, DELETE} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 1  - [39m01/01/2026, 10:52:40 AM [32m    LOG[39m [38;5;3m[NestApplication] [39m[32mNest application successfully started[39m[38;5;3m +61ms[39m
