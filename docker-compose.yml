@@ -41,9 +41,19 @@ services:
     depends_on:
       - postgres
       - redis
-    # Wait for DB to be potentially ready before running migrations
+    # Robust wait for DB before migrations
     command: >
-      sh -c "sleep 10 && npx prisma db push && node dist/main"
+      sh -c "
+        echo 'Waiting for postgres...'
+        until nc -z postgres 5432; do
+          echo 'Postgres is unavailable - sleeping'
+          sleep 2
+        done
+        echo 'Postgres is up - running migrations'
+        npx prisma db push
+        echo 'Migrations complete - starting app'
+        node dist/main
+      "
 
   frontend:
     image: bbj1111/radio-frontend:latest
