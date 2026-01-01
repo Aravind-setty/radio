@@ -25,9 +25,8 @@ model Stream {
   title       String
   genre       String?
   description String?
-  type        String     @default("EXTERNAL") // EXTERNAL, BROWSER
+  type        String     @default("BROWSER") // Browser-based streaming
   isActive    Boolean    @default(false)
-  streamUrl   String?    // For external streams or identifying the mount point
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
 
@@ -40,6 +39,8 @@ model ChatMessage {
   id        String   @id @default(uuid())
   content   String
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  editedAt  DateTime? // Tracks when message was last edited
 
   userId    String
   user      User     @relation(fields: [userId], references: [id])
