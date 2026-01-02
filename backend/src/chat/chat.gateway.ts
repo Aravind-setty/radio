@@ -22,7 +22,8 @@ interface AuthenticatedSocket extends Socket {
 
 @WebSocketGateway({
   cors: {
-    origin: '*',
+    origin: process.env.CORS_ORIGIN || '*',
+    credentials: true,
   },
 })
 @UseGuards(WsJwtGuard)
